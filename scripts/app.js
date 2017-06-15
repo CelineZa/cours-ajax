@@ -21,14 +21,38 @@ $(function(){
 	  dataType: "json" // Optionnel
 	});
 	
-	request.done(function(data) { // data = toutes les données renvoyées par la requête (sous la forme d'un ARRAY)
-			var content = "";
+	request.done(function(data) { // data = toutes les données renvoyées par la requête
+		var content = "";
+
 		data.forEach(function(element){
 			//console.log(element);
-			content += '<li><a href="">'+element.name+'</a></li>';
+			content += '<li id="utilisateur-'+element.id+'"><a href="">'+element.name+'</a></li>';
+
 		});
 
 		$("#categorie").html(content);
+
+		// Afficher l'id et l'email dans un console.info() lorsque l'on clique sur un noms
+		$("#right_column ul > li").click(function(e){
+			e.preventDefault();
+			//console.log(data);
+
+			var id_utilisateur = $(this).attr("id");
+			console.log(id_utilisateur.split("-"));
+			id_utilisateur = id_utilisateur.split("-"); // Coupe l'id à partir du tiret. Ici le résultat est : array("utilisateur", "1")
+
+			var ficheUser = $.ajax({
+			  url: "https://jsonplaceholder.typicode.com/users",
+			  method: "GET",
+			  data: { id : id_utilisateur[1] }, //On récupère l'id qui est à l'indice [1] du tableau id_utilisateur.
+			  dataType: "json"
+			});
+
+			ficheUser.done(function(dataUser){
+				console.info(dataUser[0].username+" "+dataUser[0].email);
+			});
+
+		});
 	});
 	
 	//Autre manière de faire :
@@ -48,5 +72,4 @@ $(function(){
 	request.fail(function( jqXHR, textStatus ) {
 	  alert( "Request failed: " + textStatus );
 	});
-
 });
