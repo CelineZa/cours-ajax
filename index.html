@@ -72,12 +72,12 @@
       <section id="latest">
         <article>
           <figure>
-            <ul class="clear">
+            <ul id="afficheImage" class="clear">
               <li class="one_third"><img src="images/demo/290x180.gif" width="290" height="180" alt=""></li>
               <li class="one_third"><img src="images/demo/290x180.gif" width="290" height="180" alt=""></li>
               <li class="one_third lastbox"><img src="images/demo/290x180.gif" width="290" height="180" alt=""></li>
             </ul>
-            <figcaption><a href="#">View All Our Recent Work Here &raquo;</a></figcaption>
+            <figcaption id="lien_image"><a href="#">View All Our Recent Work Here &raquo;</a></figcaption>
           </figure>
         </article>
       </section>
@@ -86,21 +86,21 @@
     <!-- main content -->
     <div id="content">
       <section id="posts" class="last clear">
-        <form action="" method="post">
+        <form action="ajoutbdd.php" method="post">
           <h2 class="title">Formulaire</h2>
-          <label for="nom">Nom</label>
-          <input type="text" id="nom" name="nom">
+          <label for="lastname">Nom</label>
+          <input type="text" id="lastname" name="lastname">
 
-          <label for="prenom">Prénom</label>
-          <input type="text" id="prenom" name="prenom">
+          <label for="firstname">Prénom</label>
+          <input type="text" id="firstname" name="firstname">
 
-          <label for="date_de_naissance">Date de naissance :</label>
-          <input type="date" id="date_de_naissance" name="date_de_naissance">
+          <label for="date_naiss">Date de naissance :</label>
+          <input type="date" id="date_naiss" name="date_naiss">
 
           <label for="poste">Poste</label>
           <br>
           <select name="poste" id="poste">
-            <option value="cio">CIO</option>
+            <option value="cto">CTO</option>
             <option value="ceo">CEO</option>
             <option value="sio">SIO</option>
           </select>

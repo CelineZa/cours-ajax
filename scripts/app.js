@@ -14,7 +14,7 @@ $(function(){
 	},3000);
 
 
-	// Exercice : Récupérer le nom des utilisateurs dans un fichier JSON et les ajouter dans une liste. 
+	// Exercice 1 : Récupérer le nom des utilisateurs dans un fichier JSON et les ajouter dans une liste. 
 	var request = $.ajax({
 	  url: "https://jsonplaceholder.typicode.com/users", // Obligatoire
 	  method: "GET", // Obligatoire
@@ -32,13 +32,13 @@ $(function(){
 
 		$("#categorie").html(content);
 
-		// Exercice : Afficher l'id et l'email dans un console.info() lorsque l'on clique sur un noms
+		// Exercice 2 : Afficher l'id et l'email dans un console.info() lorsque l'on clique sur un noms
 		$("#right_column ul > li").click(function(e){
 			e.preventDefault();
 			//console.log(data);
 
 			var id_utilisateur = $(this).attr("id");
-			console.log(id_utilisateur.split("-"));
+			//console.log(id_utilisateur.split("-"));
 			id_utilisateur = id_utilisateur.split("-"); // Coupe l'id à partir du tiret. Ici le résultat est : array("utilisateur", "1")
 
 			var ficheUser = $.ajax({
@@ -55,7 +55,7 @@ $(function(){
 		});
 	});
 	
-	//Autre manière de faire :
+	//Ma version de l'exercice 1 et 2 :
 	/*request.done(function(msg) {
 		console.log(msg);
 		console.log(msg[0].name);
@@ -74,7 +74,7 @@ $(function(){
 	});
 
 
-	// Exercice : Afficher les 4 premiers posts (en dessous du carrousel). Si la description est supérieure à 100 caractères, on met “...”.
+	// Exercice 3 : Afficher les 4 premiers posts (en dessous du carrousel). Si la description est supérieure à 100 caractères, on met “...”.
 	$.ajax({
 	  url: "https://jsonplaceholder.typicode.com/posts", 
 	  method: "GET",
@@ -82,7 +82,7 @@ $(function(){
 	})	
 
 	.done(function(dataPosts) {
-		console.log(dataPosts);
+		//console.log(dataPosts);
 
 		for(let i = 0; i < 4; i++)
 		{
@@ -111,7 +111,7 @@ $(function(){
 	  alert( "Request failed: " + textStatus );
 	});
 
-/*	Ma version :
+/*	Ma version de l'exercice 3 :
 
 	var affichePost = $.ajax({
 	  url: "https://jsonplaceholder.typicode.com/posts", 
@@ -147,4 +147,85 @@ $(function(){
 	  alert( "Request failed: " + textStatus );
 	});
 */
+
+	// Exercice 4 : Afficher les 3 premières photos puis, à chaque fois qu'on clique sur le lien "View All Our Recent Work Here »", 10 nouvelles photos apparaissent.
+	let increment = 0;
+	let pictures;
+
+	$.get("https://jsonplaceholder.typicode.com/photos") //Autre syntaxe pour écrire une requête
+	.done(function(data){
+		//console.log(data);
+
+		for(let i = 0; i < 3; i++)
+		{
+			$(".one_third").eq(i).children().attr('src',data[i].url);
+		}
+
+		pictures = data; // Grâce à cette variable on a accès au contenu de "data" partout.
+	});
+
+	$("figcaption > a").click(function(e){
+		e.preventDefault();
+		//console.log(pictures);
+
+		var content = "";
+		var indexLi = $('.one_third').length; // Retourne le nombre d'éléments qui ont la classe "one_third".
+		
+		for(let i = increment; i < increment+10 ; i++)
+		{
+			var classHtml = "";
+
+			if((indexLi+1)%3 == 0)
+			{
+				classHtml = "lastbox";
+			}
+			content += '<li class="one_third '+classHtml+'"><img src="'+pictures[i].url+'" width="290" height="180"></li>';	
+			indexLi++;
+		}
+		$('#afficheImage').append(content);
+		increment += 10;		
+	});
+
+
+/*	
+	Ma version de l'exercice 4 :
+	$.ajax({
+	  url: "https://jsonplaceholder.typicode.com/photos", 
+	  method: "GET",
+	  dataType: "json"
+	})	
+
+	.done(function(dataImage) {
+		//console.log(dataImage);
+		for(let i = 0; i < 3; i++)
+		{
+			console.log(dataImage[i].url);
+			$('.one_third > img').eq(i).attr('src',dataImage[i].url);
+		}
+
+		let compteur = 3;
+
+		$('#lien_image > a').click(function(e){
+			e.preventDefault();
+
+			for(let i = 0; i < 10; i++)
+			{	
+				console.log(dataImage[i].id);
+				console.log(compteur);
+			
+				$('#afficheImage').append('<li class="one_third"><img src="'+dataImage[compteur].url+'" width="290" height="180"></li>');
+				
+				if(i % 3 == 0)
+				{
+					$('#afficheImage > li').addClass('lastbox');
+				}	
+				compteur++;
+			}
+		});
+	})
+
+	.fail(function(jqXHR, textStatus) {
+	  alert( "Request failed: " + textStatus );
+	});*/
+
 });
