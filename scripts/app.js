@@ -16,7 +16,7 @@ $(function(){
 
 	// Exercice 1 : Récupérer le nom des utilisateurs dans un fichier JSON et les ajouter dans une liste. 
 	var request = $.ajax({
-	  url: "https://jsonplaceholder.typicode.com/users", // Obligatoire
+	  url: "http://localhost/cours-ajax/api.php", // Obligatoire
 	  method: "GET", // Obligatoire
 	  dataType: "json" // Optionnel
 	});
@@ -26,8 +26,7 @@ $(function(){
 
 		data.forEach(function(element){
 			//console.log(element);
-			content += '<li id="utilisateur-'+element.id+'"><a href="">'+element.name+'</a></li>';
-
+			content += '<li id="utilisateur-'+element.id+'"><a href="">'+element.firstname+' '+element.lastname+'</a></li>';
 		});
 
 		$("#categorie").html(content);
@@ -42,14 +41,20 @@ $(function(){
 			id_utilisateur = id_utilisateur.split("-"); // Coupe l'id à partir du tiret. Ici le résultat est : array("utilisateur", "1")
 
 			var ficheUser = $.ajax({
-			  url: "https://jsonplaceholder.typicode.com/users",
+			  url: "http://localhost/cours-ajax/api.php",
 			  method: "GET",
 			  data: { id : id_utilisateur[1] }, // On récupère les informations de l'utilisateur qui a l'id qui est égale à id_utilisateur[1].
 			  dataType: "json"
 			});
 
 			ficheUser.done(function(dataUser){
-				console.info(dataUser[0].username+" "+dataUser[0].email);
+				console.info(dataUser[0].firstname+" "+dataUser[0].lastname);
+				$('#id').val(dataUser[0].id);
+				$('#lastname').val(dataUser[0].lastname);
+				$('#firstname').val(dataUser[0].firstname);
+				$('#date_naiss').val(dataUser[0].date_naiss);
+				
+				$("#poste option[value="+dataUser[0].poste+"]").prop("selected",true);
 			});
 
 		});
@@ -240,12 +245,30 @@ $(function(){
 		})	
 
 		.done(function(dataForm){
-			$('#message_ajax').html("<div class='alert alert-success'><strong>Success !</strong> User register</div>");
+			$('#message_ajax').html("<div class='alert alert-success'><strong>Success !</strong> User registered</div>");
 			console.log("User registered");
 		})
 
 		.fail(function(jqXHR, textStatus) {
 			$('#message_ajax').html("<div class='alert alert-danger'><strong>Error !</strong> User not registered</div>");
+		});
+	});
+
+	$("#deleteUser").click(function(e){
+		e.preventDefault();
+
+		$.ajax({
+		  url: "http://localhost/cours-ajax/api.php", 
+		  method: "POST", // Méthode POST car dans api.php, on utilise $_POST
+		  data: {id : $("#id").val()} // La fonction serialize() permet de récupérer tous les input et de les mettre en chaînes de caractères.
+		})	
+
+		.done(function(dataForm){
+			$('#message_ajax').html("<div class='alert alert-success'><strong>Success !</strong> User deleted</div>");
+		})
+
+		.fail(function(jqXHR, textStatus) {
+			$('#message_ajax').html("<div class='alert alert-danger'><strong>Error !</strong> User not deleted</div>");
 		});
 	});
 
