@@ -4,6 +4,9 @@
 <title>Basic 89</title>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="styles/layout.css" type="text/css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
 
 <!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
 </head>
@@ -86,7 +89,10 @@
     <!-- main content -->
     <div id="content">
       <section id="posts" class="last clear">
-        <form action="ajoutbdd.php" method="post">
+
+        <div id="message_ajax"></div>
+
+        <form action="api.php" method="post">
           <h2 class="title">Formulaire</h2>
           <label for="lastname">Nom</label>
           <input type="text" id="lastname" name="lastname">
@@ -130,7 +136,6 @@
     <p class="fl_right">Template by <a href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
   </footer>
 </div>
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="scripts/app.js"></script>

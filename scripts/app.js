@@ -228,4 +228,25 @@ $(function(){
 	  alert( "Request failed: " + textStatus );
 	});*/
 
+	// Exercice 5 : Envoyer les données du formulaire via une requête AJAX
+	$('form').submit(function(e) // Dès lors où je soumets le formulaire, j'exécute la suite du code.
+	{
+		e.preventDefault();
+
+		$.ajax({
+		  url: "http://localhost/cours-ajax/api.php", 
+		  method: "POST", // Méthode POST car dans api.php, on utilise $_POST
+		  data: $('form').serialize() // La fonction serialize() permet de récupérer tous les input et de les mettre en chaînes de caractères.
+		})	
+
+		.done(function(dataForm){
+			$('#message_ajax').html("<div class='alert alert-success'><strong>Success !</strong> User register</div>");
+			console.log("User registered");
+		})
+
+		.fail(function(jqXHR, textStatus) {
+			$('#message_ajax').html("<div class='alert alert-danger'><strong>Error !</strong> User not registered</div>");
+		});
+	});
+
 });
